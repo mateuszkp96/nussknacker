@@ -7,6 +7,8 @@ import update from "immutability-helper";
 import ReactDOM from "react-dom";
 import {allValid, notEmptyValidator} from "../common/Validators";
 import ValidationLabels from "./modals/ValidationLabels";
+import TypeSuggest from "./graph/TypeSuggest";
+import ExpressionSuggest from "./graph/ExpressionSuggest";
 
 class RawField extends React.Component {
   render() {
@@ -17,8 +19,7 @@ class RawField extends React.Component {
 
     const validators = [notEmptyValidator];
     return this.props.connectDropTarget(this.props.connectDragSource(
-      <div className="node-row movable-row" style={{opacity}}>
-        <img src={dragHandleIcon} />
+      <div className="node-row movable-row" style={{opacity, display: 'flex'}}>
         <div className={"node-value fieldName" + markedClass}>
           <input className={allValid(validators, field.name) ? "node-input" : "node-input node-input-with-error"}
                  type="text"
@@ -28,7 +29,27 @@ class RawField extends React.Component {
           <ValidationLabels validators={validators} values={[field.name]}/>
         </div>
         <div className={"node-value field" + markedClass}>
-          {this.props.fieldCreator(field, (value) => this.props.changeValue(index, field.name, value))}
+          {/*{this.props.fieldCreator(field, (value) => this.props.changeValue(index, field.name, value))}*/}
+          <TypeSuggest
+            inputProps={{
+              value: field.typ.refClazzName,
+              onValueChange: (value) => {this.props.changeValue(index, field.name, value)}
+            }}
+            validators={validators}
+          />
+          {/*<ExpressionSuggest*/}
+          {/*  fieldName={name}*/}
+          {/*  inputProps={{*/}
+          {/*    className: "node-input",*/}
+          {/*    value: field.typ.refClazzName,*/}
+          {/*    language: value.language,*/}
+          {/*    onValueChange: (value) => {this.props.changeValue(index, field.name, value)},*/}
+          {/*    readOnly,*/}
+          {/*    rows,*/}
+          {/*    cols}}*/}
+          {/*  validators={validators}*/}
+          {/*  isMarked={isMarked}*/}
+          {/*/>*/}
         </div>
         <div className="node-value fieldRemove">
           {/* TODO: add nicer buttons. Awesome font? */}
