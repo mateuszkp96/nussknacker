@@ -7,6 +7,7 @@ import update from "immutability-helper";
 import ReactDOM from "react-dom";
 import {allValid, notEmptyValidator} from "../common/Validators";
 import ValidationLabels from "./modals/ValidationLabels";
+import TypeSuggest from "./graph/TypeSuggest";
 
 class RawField extends React.Component {
   render() {
@@ -16,8 +17,7 @@ class RawField extends React.Component {
 
     const validators = [notEmptyValidator];
     return this.props.connectDropTarget(this.props.connectDragSource(
-      <div className="node-row movable-row" style={{opacity}}>
-        <img src={dragHandleIcon} />
+      <div className="node-row movable-row" style={{opacity, display: 'flex'}}>
         <div className={"node-value fieldName" + markedClass}>
           <input className={!showValidation || allValid(validators, [field.name]) ? "node-input" : "node-input node-input-with-error"}
                  type="text"
@@ -28,7 +28,14 @@ class RawField extends React.Component {
           {showValidation && <ValidationLabels validators={validators} values={[field.name]}/>}
         </div>
         <div className={"node-value field" + markedClass}>
-          {this.props.fieldCreator(field, (value) => this.props.changeValue(index, field.name, value), readOnly)}
+          <TypeSuggest
+            inputProps={{
+              refClazzName: field.typ.refClazzName,
+              onValueChange: (value) => {this.props.changeValue(index, field.name, value)},
+              readOnly: readOnly
+            }}
+            validators={validators}
+          />
         </div>
         {
           readOnly ? null :
