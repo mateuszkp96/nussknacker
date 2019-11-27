@@ -51,7 +51,7 @@
     "react-resizable-box": "~2.1.0",
     "react-router": "~5.0.1",
     "react-router-dom": "~5.0.1",
-    "react-select": "~3.0.4",
+    "react-select": "^3.0.8",
     "react-tabs": "~3.0.0",
     "react-textarea-autosize": "~7.1.0",
     "react-transition-group": "~4.1.1",

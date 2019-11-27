@@ -2,12 +2,11 @@ import React from "react";
 import PropTypes from 'prop-types';
 import _ from "lodash";
 import {DragSource, DropTarget} from "react-dnd";
-import dragHandleIcon from "../assets/img/drag-handle.png";
 import update from "immutability-helper";
 import ReactDOM from "react-dom";
 import {allValid, notEmptyValidator} from "../common/Validators";
 import ValidationLabels from "./modals/ValidationLabels";
-import TypeSuggest from "./graph/TypeSuggest";
+import TypeSelect from "./graph/TypeSelect";
 
 class RawField extends React.Component {
   render() {
@@ -28,12 +27,10 @@ class RawField extends React.Component {
           {showValidation && <ValidationLabels validators={validators} values={[field.name]}/>}
         </div>
         <div className={"node-value field" + markedClass}>
-          <TypeSuggest
-            inputProps={{
-              refClazzName: field.typ.refClazzName,
-              onValueChange: (value) => {this.props.changeValue(index, field.name, value)},
-              readOnly: readOnly
-            }}
+          <TypeSelect
+            onValueChange={(value) => {this.props.changeValue(index, field.name, value)}}
+            readOnly={readOnly}
+            refClazzName={field.typ.refClazzName}
             validators={validators}
           />
         </div>
